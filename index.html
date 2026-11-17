@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SNTY Control Panel</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  background: #080808;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 550px;
+  margin: 30px auto;
+  padding: 22px;
+  background: #111;
+  border: 1px solid #b58b2a;
+  border-radius: 15px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+h1 {
+  color: #d4af37;
+  letter-spacing: 5px;
+}
+
+.subtitle {
+  color: #aaa;
+  font-size: 12px;
+}
+
+label {
+  display: block;
+  color: #d4af37;
+  margin: 17px 0 8px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+textarea, input {
+  width: 100%;
+  padding: 13px;
+  background: #080808;
+  color: white;
+  border: 1px solid #59451c;
+  border-radius: 8px;
+}
+
+textarea {
+  height: 150px;
+  resize: vertical;
+}
+
+button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 8px;
+  background: #d4af37;
+  color: black;
+  font-weight: bold;
+}
+
+#preview {
+  margin-top: 20px;
+  padding: 12px;
+  background: #080808;
+  border: 1px solid #59451c;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.message {
+  padding: 9px;
+  border-bottom: 1px solid #333;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+  <h1>SNTY</h1>
+  <div class="subtitle">FIRST TRIAD CONTROL PANEL</div>
+</header>
+
+<label>CUSTOM MESSAGES</label>
+<textarea id="messages" placeholder="One message per line..."></textarea>
+
+<label>MESSAGE COUNT (MAX 50)</label>
+<input id="count" type="number" min="1" max="50" value="15">
+
+<button onclick="previewMessages()">PREVIEW MESSAGES</button>
+
+<button onclick="clearMessages()"
+style="background:#333;color:white">
+CLEAR
+</button>
+
+<div id="preview"></div>
+
+</div>
+
+<script>
+function previewMessages() {
+  const messages = document.getElementById("messages")
+    .value.split("\n")
+    .map(m => m.trim())
+    .filter(Boolean);
+
+  const count = Number(document.getElementById("count").value);
+  const preview = document.getElementById("preview");
+
+  if (!messages.length) {
+    alert("Enter your custom messages first.");
+    return;
+  }
+
+  if (!Number.isInteger(count) || count < 1 || count > 50) {
+    alert("Count must be between 1 and 50.");
+    return;
+  }
+
+  preview.innerHTML = "<h3 style='color:#d4af37'>MESSAGE PREVIEW</h3>";
+
+  for (let i = 0; i < count; i++) {
+    const item = document.createElement("div");
+    item.className = "message";
+    item.textContent = (i + 1) + ". " + messages[i % messages.length];
+    preview.appendChild(item);
+  }
+}
+
+function clearMessages() {
+  document.getElementById("messages").value = "";
+  document.getElementById("preview").innerHTML = "";
+}
+</script>
+
+</body>
+  </html>
+  
